@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 @Slf4j
 @RestController
 @RequestMapping("/category")
-public class CategoryServiceController {
+public class CategoryController {
     @Autowired
     private CategoryService categoryService;
     /*
@@ -41,5 +41,26 @@ public class CategoryServiceController {
         //执行查询
         categoryService.page(pageSearch,queryWrapper);
         return R.success(pageSearch);
+    }
+
+    /*
+    根据ID删除套餐或菜品分类
+     */
+    @DeleteMapping
+    public R<String> deleteById(Long ids){
+        log.info("删除菜品分类或套餐分类："+ids);
+        categoryService.remove(ids);
+        return R.success("删除成功");
+    }
+
+    /*
+    根据id修改数据
+     */
+    @PutMapping
+    public R<String> update(@RequestBody Category category){
+        log.info("修改分类信息"+category.getName());
+
+        categoryService.updateById(category);
+        return R.success("修改成功");
     }
 }
